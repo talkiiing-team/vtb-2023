@@ -1,0 +1,14 @@
+FROM ghcr.io/project-osrm/osrm-backend:v5.27.1
+
+WORKDIR /data
+
+ADD http://download.geofabrik.de/russia-latest.osm.pbf russia-latest.osm.pbf
+
+RUN osrm-extract -p /opt/car.lua russia-latest.osm.pbf \
+    && osrm-partition russia-latest.osm.pbf \
+    && osrm-customize russia-latest.osm.pbf \
+    && mv russia-latest.osrm car.osrm
+
+EXPOSE 5000
+
+CMD osrm-routed --algorithm mld /data/car.osrm
