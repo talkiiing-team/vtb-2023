@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS "atms" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"address" text NOT NULL,
 	"all_day" boolean NOT NULL,
-	"point" "GEOMETRY(POINT)" NOT NULL
+	"point" GEOMETRY(POINT) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "banks" (
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS "banks" (
 	"open_hours_individual" jsonb NOT NULL,
 	"office_type" text NOT NULL,
 	"sale_point_format" "sale_point_format" NOT NULL,
-	"point" "GEOMETRY(POINT)" NOT NULL
+	"point" GEOMETRY(POINT) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "circumstances" (
