@@ -1,8 +1,11 @@
+import { sql } from 'drizzle-orm'
+
 import { Controller } from '../../../types/controller'
-import banksData from '../../../seed/offices.json'
+import { banks } from '../../../models'
+import db from '../../../app/db'
 
 const controller: Controller = {
-  getNearest: (req, res) => {
+  getNearest: async (req, res) => {
     const { lat, lng, dist } = req.query
 
     if (!lat || !lng || !dist) {
@@ -11,26 +14,23 @@ const controller: Controller = {
       })
     }
 
-    const flat = parseFloat(lat as string)
-    const flng = parseFloat(lng as string)
-    const fdist = parseFloat(dist as string)
-
-    if (isNaN(flat) || isNaN(flng) || isNaN(fdist)) {
-      return res.status(400).json({
-        message: 'Invalid coordinates',
-      })
-    }
-
-    return banksData
-      .map(bank => ({
-        ...bank,
-        distance: Math.sqrt(
-          Math.pow(bank.latitude - flat, 2) +
-            Math.pow(bank.longitude - flng, 2),
+    const found = await db
+      .select()
+      .from(banks)
+      .where(
+        sql.raw(
+          `st_distancesphere(point, st_geomfromewkt('SRID=4326;POINT(${lat} ${lng})')) <= ${dist}`,
         ),
-      }))
-      .filter(bank => bank.distance <= fdist)
-      .sort((a, b) => a.distance - b.distance)
+      )
+      .orderBy(
+        sql.raw(
+          `st_distance(point, st_geomfromewkt('SRID=4326;POINT(${lat} ${lng})'))`,
+        ),
+      )
+      .limit(10)
+      .execute()
+
+    return res.json(found)
   },
 }
 

@@ -50,14 +50,14 @@ export const point = (name: string, options?: PointOptions) =>
     config: PointOptions
     driverData: string
   }>({
-    dataType: (options) => dataType({ type: 'POINT', ...options }),
+    dataType: options => dataType({ type: 'POINT', ...options }),
     toDriver: ({ lat, lng }: LatLng) =>
       toDriver({
         type: 'Point',
-        coordinates: [lng, lat],
+        coordinates: [lat, lng],
       }),
-    fromDriver: (value) => {
-      const [lng, lat] = (fromDriver(value) as Point).coordinates
+    fromDriver: value => {
+      const [lat, lng] = (fromDriver(value) as Point).coordinates
       return { lat, lng }
     },
   })(name, options)
