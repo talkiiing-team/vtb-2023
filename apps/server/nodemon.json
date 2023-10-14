@@ -1,5 +1,5 @@
 {
-  "watch": ["src"],
+  "watch": ["src", "./.env"],
   "ext": "ts, json",
-  "exec": "NODE_ENV=development node -r dotenv/config -r jiti/register src/index.ts"
+  "exec": "NODE_ENV=development node -r dotenv/config -r jiti/register main.ts"
 }
