@@ -10,7 +10,7 @@ const migrationClient = drizzle(postgres(env.DB_URI, { max: 1 }))
 export const migrate = () =>
   drizzleMigrate(migrationClient, { migrationsFolder: 'migrations' })
     .then(() => logger.info('applied migrations'))
-    .catch((error) => {
+    .catch(error => {
       logger.fatal('fail to apply migrations', error)
       process.exit(-1)
     })

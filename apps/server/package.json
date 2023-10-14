@@ -4,7 +4,8 @@
   "scripts": {
     "start": "node -r jiti/register main.ts",
     "dev": "nodemon",
-    "gen:migrations": "drizzle-kit generate:pg"
+    "gen:migrations": "drizzle-kit generate:pg",
+    "seed": "node -r jiti/register -r dotenv/config --max-old-space-size=8192 src/seed/index.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",

@@ -101,13 +101,55 @@ const windowsData = (() => {
 const ticketsData = (() => {
   const result = []
 
-  for (const bank of offices) {
-    for (let i = 0; i < servicesData.length; i++) {
-      for (let j = 0; j < 10; j++) {
-        result.push({
-          id: randomUUID(),
-        })
+  for (let w = 0; w < windowsData.length; w += 10) {
+    const window = windowsData[w]
+    for (let j = 0; j < 3; j++) {
+      const bank = offices.find(it => it.uuid === window.bankId)!
+
+      const gen = (
+        day: { to: string; from: string } | null | undefined,
+        d: number,
+      ) => {
+        if (day) {
+          const [opensFromHours, opensFromMinutes] = day.from
+            .split(':')
+            .map(Number)
+          const opensFrom = new Date(0)
+          opensFrom.setHours(opensFromHours)
+          opensFrom.setMinutes(opensFromMinutes)
+          const [opensToHours, opensToMinutes] = day.to.split(':').map(Number)
+          const opensTo = new Date(0)
+          opensTo.setHours(opensToHours)
+          opensTo.setMinutes(opensToMinutes)
+          for (
+            let s = Number(opensFrom);
+            s < Number(opensTo) - 900_000;
+            s += 900_000 * 3
+          ) {
+            let base = new Date()
+            base.setDate(base.getDate() + d)
+            base.setHours(0)
+            base.setMinutes(0)
+            base.setSeconds(0)
+            base = new Date(Number(base) + s)
+
+            result.push({
+              id: randomUUID(),
+              windowId: window.id,
+              startTime: new Date(Number(base) + s),
+              endTime: new Date(Number(base) + s + 899_000),
+            })
+          }
+        }
       }
+
+      gen(bank.open_hours?.sun, 1)
+      gen(bank.open_hours?.sat, 0)
+      gen(bank.open_hours?.fri, -1)
+      gen(bank.open_hours?.thu, -2)
+      gen(bank.open_hours?.wed, -3)
+      gen(bank.open_hours?.tue, -4)
+      gen(bank.open_hours?.mon, -5)
     }
   }
 
@@ -136,8 +178,8 @@ const ticketsData = (() => {
         hasRamp: office.has_ramp === 'true',
         myBranch: office.my_branch,
         suoAvailability: office.suo_available === 'true',
-        openHours: office.open_hours,
-        openHoursIndividual: office.open_hours_individual,
+        openHours: office.open_hours ?? {},
+        openHoursIndividual: office.open_hours_individua ?? {},
         officeType: office.office_type,
         salePointFormat: office.sale_point_format as any,
         point: {
@@ -173,7 +215,7 @@ const ticketsData = (() => {
 
   await db.insert(windows).values(windowsData).onConflictDoNothing().execute()
 
-  //   await db.insert(tickets).values(ticketsData)
+  await db.insert(tickets).values(ticketsData)
 
   console.log('Done')
 })()

@@ -4,10 +4,10 @@ WORKDIR /data
 
 ADD http://download.geofabrik.de/russia-latest.osm.pbf russia-latest.osm.pbf
 
-RUN osrm-extract -p /opt/car.lua russia-latest.osm.pbf \
-    && osrm-partition russia-latest.osm.pbf \
-    && osrm-customize russia-latest.osm.pbf \
-    && mv russia-latest.osrm car.osrm
+RUN osrm-extract -p /opt/car.lua russia-latest.osm.pbf 
+RUN osrm-partition russia-latest.osm.pbf 
+RUN osrm-customize russia-latest.osm.pbf
+RUN mv russia-latest.osrm car.osrm
 
 EXPOSE 5000
 
