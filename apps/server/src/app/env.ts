@@ -4,7 +4,7 @@ import logger from './logger'
 
 const scheme = z.object({
   LISTEN: z.string().transform(Number),
-  DB_URI: z.string(),
+  // DB_URI: z.string(),
 })
 
 const env = scheme.safeParse(process.env)

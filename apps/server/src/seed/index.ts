@@ -124,7 +124,7 @@ const ticketsData = (() => {
   await db
     .insert(banks)
     .values(
-      offices.map((office) => ({
+      offices.map(office => ({
         id: office.uuid,
         salePointName: office.sale_point_name,
         salePointCode: office.sale_point_code,
@@ -152,7 +152,7 @@ const ticketsData = (() => {
   await db
     .insert(atms)
     .values(
-      atmsData.map((atm) => ({
+      atmsData.map(atm => ({
         id: atm.uuid,
         address: atm.address,
         allDay: atm.all_day,
@@ -173,7 +173,7 @@ const ticketsData = (() => {
 
   await db.insert(windows).values(windowsData).onConflictDoNothing().execute()
 
-  await db.insert(tickets).values()
+  //   await db.insert(tickets).values(ticketsData)
 
   console.log('Done')
 })()
