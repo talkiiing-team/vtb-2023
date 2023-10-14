@@ -11,7 +11,7 @@ import { getMapPin } from '@/shared/ui/map-pin'
 export const Map = () => {
   const ref = useRef<LeafletMap>(null)
   const container = useRef<HTMLDivElement>(null)
-  const [currentPos, setCurrentPos] = useState<Position | undefined>()
+  const [currentPos, setCurrentPos] = useState<Position>()
   const [allowed, setAllowed] = useState<boolean>(false)
   const [banks, setBanks] = useState<Bank[]>([])
 
