@@ -4,6 +4,7 @@ import postgres from 'postgres'
 
 import env from './env'
 import logger from './logger'
+// import { banks, circumstances, salePointFormat, services, tickets } from '../models'
 
 const migrationClient = drizzle(postgres(env.DB_URI, { max: 1 }))
 
