@@ -1,3 +1,3 @@
-import { Map } from './ui'
+import { Map } from './Map.tsx'
 
 export default Map

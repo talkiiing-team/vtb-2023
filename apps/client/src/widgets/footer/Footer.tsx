@@ -1,17 +1,19 @@
 import classNames from 'classnames'
 import { Link, useLocation } from 'react-router-dom'
+import { ReactNode } from 'react'
+import { HomeIcon, MapIcon, QueueListIcon } from '@heroicons/react/24/outline'
 
-const linksNav = [
+const linksNav: { icon: ReactNode; path: string }[] = [
   {
-    icon: 'B',
+    icon: <QueueListIcon className='w-5 h-5' />,
     path: '/bank-list',
   },
   {
-    icon: 'H',
+    icon: <HomeIcon className='w-5 h-5' />,
     path: '/',
   },
   {
-    icon: 'M',
+    icon: <MapIcon className='w-5 h-5' />,
     path: '/map',
   },
 ]
@@ -20,7 +22,7 @@ export const Footer = () => {
   const { pathname } = useLocation()
 
   return (
-    <footer className="btm-nav bg-primary text-white rounded-t-lg">
+    <footer className='btm-nav bg-primary text-white rounded-t-lg'>
       {linksNav.map((e, i) => (
         <Link
           key={i}
