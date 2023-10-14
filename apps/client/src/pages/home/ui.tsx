@@ -1,9 +1,16 @@
-import { MapPin } from '@/shared/ui/map-pin'
+import ArrowIcon from '@/shared/assets/icons/arrow-icon.svg'
 
 export const Home = () => {
   return (
-    <article>
-      <MapPin />
+    <article className="h-full">
+      <header className="">search</header>
+      <main className="grow flex-1">content</main>
+      <footer className="flex flex-col">
+        <p>Use this</p>
+        <div>
+          <ArrowIcon />
+        </div>
+      </footer>
     </article>
   )
 }
