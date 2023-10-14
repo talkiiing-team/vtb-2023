@@ -1,3 +1,3 @@
-import { Footer } from './ui'
+import { Footer } from './Footer.tsx'
 
 export default Footer
