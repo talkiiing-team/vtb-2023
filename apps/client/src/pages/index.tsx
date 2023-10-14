@@ -1,4 +1,3 @@
-// Or use @loadable/component, as part of the tutorial - uncritically
 import { lazy } from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
 
