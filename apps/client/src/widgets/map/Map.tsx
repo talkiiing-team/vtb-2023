@@ -12,7 +12,6 @@ export const Map = forwardRef<LeafletMap, {}>(props => {
   const container = useRef<HTMLDivElement>(null)
   const [currentPos, setCurrentPos] = useState<Position | undefined>()
   const [allowed, setAllowed] = useState<boolean>(false)
-  const [size, setSize] = useState({ height: 0, width: 0 })
 
   useEffect(() => {
     geoService
@@ -31,25 +30,10 @@ export const Map = forwardRef<LeafletMap, {}>(props => {
       })
   }, [])
 
-  useEffect(() => {
-    if (!currentPos || !ref?.current) return
-    // ref.current.setView(
-    //   { lat: currentPos.latitude, lng: currentPos.longitude },
-    //   allowed ? 13 : 9,
-    // )
-  }, [currentPos, allowed])
-
-  useEffect(() => {
-    if (container.current) {
-      const sizes = container.current.getBoundingClientRect()
-      setSize({ height: sizes.height, width: sizes.width })
-    }
-  }, [container.current])
-
   return (
-    <div className='w-full h-full' ref={container}>
+    <div className='flex grow' ref={container}>
       {currentPos ? (
-        <MapContainer ref={ref} style={size} scrollWheelZoom={false}>
+        <MapContainer ref={ref} className='grow' scrollWheelZoom={false}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             // url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'

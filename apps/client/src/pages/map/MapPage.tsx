@@ -6,8 +6,8 @@ export const MapPage = () => {
   const ref = useRef<LeafletMap>(null)
 
   return (
-    <div className='w-full h-full relative grow'>
-      <div className='w-full h-full min-h-full'>
+    <div className='grow flex flex-col'>
+      <div className='flex grow [&>*]:grow flex-col'>
         <Map ref={ref} />
       </div>
       {/*<div className='absolute w-full h-full pointer-events-none'>*/}
