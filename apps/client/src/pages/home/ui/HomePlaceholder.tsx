@@ -6,10 +6,10 @@ export const HomePlaceholder = () => {
     <article className="grow flex flex-col justify-between opacity-50">
       <section>
         <div className="flex flex-col gap-4 justify-center items-center">
-          <p className="text-center">Ваш запрос</p>
           <div className="w-8 h-8 rotate-180">
             <ArrowIcon />
           </div>
+          <p className="text-center">Ваш запрос</p>
         </div>
       </section>
       <section>
