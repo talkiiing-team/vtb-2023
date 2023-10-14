@@ -1,7 +1,7 @@
 import express from 'express'
 
-export const createApp = async () => {
-  const app = express()
+import v1 from './api/v1'
 
-  return app
+export const createApp = async () => {
+  return express().use('/v1', v1)
 }

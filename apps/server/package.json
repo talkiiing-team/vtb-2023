@@ -2,7 +2,7 @@
   "name": "@vtb/server",
   "version": "0.0.1",
   "scripts": {
-    "start": "node -r jiti/register src/index.ts",
+    "start": "node -r jiti/register main.ts",
     "dev": "nodemon",
     "gen:migrations": "drizzle-kit generate:pg"
   },
@@ -12,11 +12,14 @@
     "postgres": "^3.4.0",
     "swagger-ui-express": "^5.0.0",
     "tslog": "^4.9.2",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "geojson": "^0.5.0",
+    "wkx": "^0.5.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.19",
     "@types/node": "^20.8.6",
+    "@types/swagger-ui-express": "^4.1.4",
     "dotenv": "^16.3.1",
     "drizzle-kit": "^0.19.13",
     "jiti": "^1.20.0",

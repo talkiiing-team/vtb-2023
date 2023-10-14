@@ -1,0 +1,54 @@
+{
+  "openapi": "3.0.1",
+  "info": { "title": "API documentation for MAPI", "version": "1.0.0" },
+  "servers": [{ "url": "http://localhost:3000", "description": "dev" }],
+  "paths": {
+    "/v1/atms": {
+      "get": {
+        "summary": "get nearest atm",
+        "tags": ["atms"],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PredictRequest"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PredictRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "enum": ["at_work", "failed", "done"],
+            "nullable": false
+          },
+          "ts": {
+            "type": "string",
+            "description": "request creation datetime",
+            "nullable": false
+          },
+          "result": {
+            "type": "object",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}

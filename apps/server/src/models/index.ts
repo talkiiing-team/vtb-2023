@@ -1,53 +1,120 @@
 import {
   boolean,
+  integer,
   jsonb,
   pgEnum,
   pgTable,
   text,
+  timestamp,
   uuid,
 } from 'drizzle-orm/pg-core'
+import { point } from './point'
+import { relations } from 'drizzle-orm'
 
-export const bankStatus = pgEnum('bank_status', ['active', 'inactive'])
+export const salePointFormat = pgEnum('sale_point_format', [
+  'Мини_расш',
+  'Универсальный',
+  'Микро 2(3)',
+  'Филиал',
+  'Микро (РБ)',
+  'Стандарт',
+  'Прайм (РБ)',
+  'Стандарт+бизнес отдел',
+  'Брокер',
+  'Розничный (РБ)',
+  'Корпоративный',
+  'Привилегия (РБ)',
+])
 
 export const banks = pgTable('banks', {
-  id: uuid('id').primaryKey(),
+  id: uuid('id').primaryKey().notNull(),
 
-  // fields from VTB bank:
   salePointName: text('sale_point_name').notNull(),
+  salePointCode: text('sale_point_code').notNull(),
 
   address: text('address').notNull(),
-  metroStation: text('metro_station'),
+  metroStation: text('metro_station').notNull(),
 
-  status: bankStatus('status').notNull().default('active'),
-  rko: boolean('rko').default(false),
-  hasRamp: boolean('has_ramp').default(false),
-  myBranch: boolean('my_branch').default(false),
-  suoAvailability: boolean('suo_availability').default(false),
+  is_opened: boolean('is_opened').default(true).notNull(),
+  rko: boolean('rko').default(false).notNull(),
+  kep: boolean('kep').default(false).notNull(),
+  hasRamp: boolean('has_ramp').default(false).notNull(),
+  myBranch: boolean('my_branch').default(false).notNull(),
+  suoAvailability: boolean('suo_availability').default(false).notNull(),
 
-  // TODO: think about how to store these
-  openHours: jsonb('open_hours').default({
-    mon: '09:00-20:00',
-    tue: '09:00-20:00',
-    wed: '09:00-20:00',
-    thu: '09:00-20:00',
-    fri: '09:00-20:00',
-    break: '13:00-14:00',
-  }),
-  openHoursIndividual: jsonb('open_hours_individual').default({
-    mon: '09:00-20:00',
-    tue: '09:00-20:00',
-    wed: '09:00-20:00',
-    thu: '09:00-20:00',
-    fri: '09:00-20:00',
-    break: '13:00-14:00',
-  }),
+  openHours: jsonb('open_hours').notNull(),
+  openHoursIndividual: jsonb('open_hours_individual').notNull(),
 
-  // TODO: store lat long with PostGIS
-  // TODO: investigate what office types are
+  officeType: text('office_type').notNull(),
+  salePointFormat: salePointFormat('sale_point_format').notNull(),
+
+  point: point('point').notNull(),
 })
 
-// TODO: services
-// TODO: обстоятельства (circumstances)
-// TODO: windows
-// TODO: tickets
-// TODO: atms
+export const services = pgTable('services', {
+  id: uuid('id').primaryKey().notNull(),
+  name: text('name').notNull(),
+  description: text('description').notNull(),
+  searchTerms: text('search_terms').array().notNull(),
+})
+
+export const circumstances = pgTable('circumstances', {
+  id: uuid('id').primaryKey().notNull(),
+  name: text('name').notNull(),
+  description: text('description').notNull(),
+  searchTerms: text('search_terms').array().notNull(),
+})
+
+export const windows = pgTable('windows', {
+  id: uuid('id').primaryKey().notNull(),
+  serviceId: uuid('service_id')
+    .notNull()
+    .references(() => services.id),
+  bankId: uuid('bank_id')
+    .notNull()
+    .references(() => banks.id),
+  num: integer('num').notNull(),
+})
+
+export const tickets = pgTable('tickets', {
+  id: uuid('id').primaryKey().notNull(),
+  windowId: uuid('window_id')
+    .notNull()
+    .references(() => windows.id),
+  startTime: timestamp('start_time').notNull(),
+  endTime: timestamp('end_time').notNull(),
+})
+
+export const atms = pgTable('atms', {
+  id: uuid('id').primaryKey().notNull(),
+  address: text('address').notNull(),
+  allDay: boolean('all_day').notNull(),
+  point: point('point').notNull(),
+})
+
+export const windowsRelations = relations(windows, ({ one, many }) => ({
+  service: one(services, {
+    fields: [windows.serviceId],
+    references: [services.id],
+  }),
+  bank: one(banks, {
+    fields: [windows.bankId],
+    references: [banks.id],
+  }),
+  tickets: many(tickets),
+}))
+
+export const ticketsRelations = relations(tickets, ({ one }) => ({
+  window: one(windows, {
+    fields: [tickets.windowId],
+    references: [windows.id],
+  }),
+}))
+
+export const servicesRelations = relations(services, ({ many }) => ({
+  windows: many(windows),
+}))
+
+export const banksRelations = relations(banks, ({ many }) => ({
+  windows: many(windows),
+}))
