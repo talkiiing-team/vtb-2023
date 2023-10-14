@@ -54,5 +54,24 @@ CREATE TABLE IF NOT EXISTS "tickets" (
 CREATE TABLE IF NOT EXISTS "windows" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"service_id" uuid NOT NULL,
+	"bank_id" uuid NOT NULL,
 	"num" integer NOT NULL
 );
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "tickets" ADD CONSTRAINT "tickets_window_id_windows_id_fk" FOREIGN KEY ("window_id") REFERENCES "windows"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "windows" ADD CONSTRAINT "windows_service_id_services_id_fk" FOREIGN KEY ("service_id") REFERENCES "services"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "windows" ADD CONSTRAINT "windows_bank_id_banks_id_fk" FOREIGN KEY ("bank_id") REFERENCES "banks"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;

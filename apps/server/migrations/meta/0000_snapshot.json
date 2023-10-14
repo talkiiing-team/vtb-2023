@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "9d80326e-a1a9-4853-b3b8-274f341914d2",
+  "id": "fc796cde-0697-415f-aee0-2a3e527f6e2c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "atms": {
@@ -248,7 +248,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "tickets_window_id_windows_id_fk": {
+          "name": "tickets_window_id_windows_id_fk",
+          "tableFrom": "tickets",
+          "tableTo": "windows",
+          "columnsFrom": [
+            "window_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -268,6 +282,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "bank_id": {
+          "name": "bank_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
         "num": {
           "name": "num",
           "type": "integer",
@@ -276,7 +296,34 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "windows_service_id_services_id_fk": {
+          "name": "windows_service_id_services_id_fk",
+          "tableFrom": "windows",
+          "tableTo": "services",
+          "columnsFrom": [
+            "service_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "windows_bank_id_banks_id_fk": {
+          "name": "windows_bank_id_banks_id_fk",
+          "tableFrom": "windows",
+          "tableTo": "banks",
+          "columnsFrom": [
+            "bank_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     }

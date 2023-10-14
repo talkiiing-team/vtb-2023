@@ -67,13 +67,20 @@ export const circumstances = pgTable('circumstances', {
 
 export const windows = pgTable('windows', {
   id: uuid('id').primaryKey().notNull(),
-  serviceId: uuid('service_id').notNull(),
+  serviceId: uuid('service_id')
+    .notNull()
+    .references(() => services.id),
+  bankId: uuid('bank_id')
+    .notNull()
+    .references(() => banks.id),
   num: integer('num').notNull(),
 })
 
 export const tickets = pgTable('tickets', {
   id: uuid('id').primaryKey().notNull(),
-  windowId: uuid('window_id').notNull(),
+  windowId: uuid('window_id')
+    .notNull()
+    .references(() => windows.id),
   startTime: timestamp('start_time').notNull(),
   endTime: timestamp('end_time').notNull(),
 })
@@ -90,6 +97,10 @@ export const windowsRelations = relations(windows, ({ one, many }) => ({
     fields: [windows.serviceId],
     references: [services.id],
   }),
+  bank: one(banks, {
+    fields: [windows.bankId],
+    references: [banks.id],
+  }),
   tickets: many(tickets),
 }))
 
@@ -101,5 +112,9 @@ export const ticketsRelations = relations(tickets, ({ one }) => ({
 }))
 
 export const servicesRelations = relations(services, ({ many }) => ({
+  windows: many(windows),
+}))
+
+export const banksRelations = relations(banks, ({ many }) => ({
   windows: many(windows),
 }))
