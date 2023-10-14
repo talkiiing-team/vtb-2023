@@ -31,3 +31,21 @@
   font-weight: 800;
   src: url(/fonts/VTBGroupUI-Bold.ttf);
 }
+
+.leaflet-bottom.leaflet-right {
+  display: none;
+}
+
+body,
+html,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+@media all and (display-mode: standalone) {
+  body {
+    height: 100%;
+  }
+}
+
