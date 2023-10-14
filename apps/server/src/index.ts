@@ -1,9 +1,7 @@
 import express from 'express'
 
+import v1 from './api/v1'
+
 export const createApp = async () => {
-  const app = express()
-
-  app.get('/', (req, res) => res.send('hello'))
-
-  return app
+  return express().use('/v1', v1)
 }

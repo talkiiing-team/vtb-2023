@@ -3,10 +3,10 @@
   "info": { "title": "API documentation for MAPI", "version": "1.0.0" },
   "servers": [{ "url": "http://localhost:3000", "description": "dev" }],
   "paths": {
-    "/v1/predicts": {
+    "/v1/atms": {
       "get": {
-        "summary": "get predict requests list",
-        "tags": ["predicts"],
+        "summary": "get nearest atm",
+        "tags": ["atms"],
         "responses": {
           "200": {
             "content": {
@@ -19,103 +19,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "summary": "requests prediction",
-        "tags": ["predicts"],
-        "requestBody": {
-          "description": "dataset for predict",
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "train": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "400": {
-            "description": "missed train file"
-          },
-          "201": {
-            "description": "predict request created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PredictRequest"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/predicts/{id}": {
-      "get": {
-        "summary": "get prediction request by id",
-        "tags": ["predicts"],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "schema": {
-              "type": "integer"
-            },
-            "required": true,
-            "description": "predict request's id"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "bad predict request id"
-          },
-          "404": {},
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PredictRequest"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/train": {
-      "post": {
-        "summary": "train model",
-        "tags": ["train"],
-        "requestBody": {
-          "description": "dataset for train",
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "train": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "500": {
-            "description": "train failed"
-          },
-          "200": {
-            "description": "trained successfull"
           }
         }
       }
