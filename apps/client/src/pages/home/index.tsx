@@ -1,5 +1,11 @@
+import { MapPin } from '@/shared/ui/map-pin'
+
 const Home = () => {
-  return <div>Home Page</div>
+  return (
+    <div>
+      <MapPin />
+    </div>
+  )
 }
 
 export default Home

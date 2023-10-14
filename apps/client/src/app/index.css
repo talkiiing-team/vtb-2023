@@ -4,30 +4,30 @@
 
 @font-face {
   font-family: 'VTBGroupUI';
-  font-weight: '300';
-  src: url(/VTBGroupUI-Light.ttf);
+  font-weight: 300;
+  src: url(/fonts/VTBGroupUI-Light.ttf);
 }
 
 @font-face {
   font-family: 'VTBGroupUI';
-  font-weight: '400';
-  src: url(/VTBGroupUI-Regular.ttf);
+  font-weight: 400;
+  src: url(/fonts/VTBGroupUI-Regular.ttf);
 }
 
 @font-face {
   font-family: 'VTBGroupUI';
-  font-weight: '500';
-  src: url(/VTBGroupUI-Medium.ttf);
+  font-weight: 500;
+  src: url(/fonts/VTBGroupUI-Medium.ttf);
 }
 
 @font-face {
   font-family: 'VTBGroupUI';
-  font-weight: '600';
-  src: url(/VTBGroupUI-DemiBold.ttf);
+  font-weight: 600;
+  src: url(/fonts/VTBGroupUI-DemiBold.ttf);
 }
 
 @font-face {
   font-family: 'VTBGroupUI';
-  font-weight: '800';
-  src: url(/VTBGroupUI-Bold.ttf);
+  font-weight: 800;
+  src: url(/fonts/VTBGroupUI-Bold.ttf);
 }
