@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm'
+import { eq, sql } from 'drizzle-orm'
 
 import { Controller } from '../../../types/controller'
 import { atms } from '../../../models'
@@ -31,6 +31,13 @@ const controller: Controller = {
       .execute()
 
     return res.json(found)
+  },
+  getById: async (req, res) => {
+    const { uuid } = req.params
+
+    const [atm] = await db.selectDistinct().from(atms).where(eq(atms.id, uuid))
+
+    return res.json(atm)
   },
 }
 

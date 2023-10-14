@@ -1,7 +1,7 @@
-import { sql } from 'drizzle-orm'
+import { eq, sql } from 'drizzle-orm'
 
 import { Controller } from '../../../types/controller'
-import { banks } from '../../../models'
+import { banks, services, circumstances, windows } from '../../../models'
 import db from '../../../app/db'
 
 const controller: Controller = {
@@ -31,6 +31,18 @@ const controller: Controller = {
       .execute()
 
     return res.json(found)
+  },
+  getById: async (req, res) => {
+    const { uuid } = req.params
+
+    const [bank] = await db
+      .selectDistinct()
+      .from(windows)
+      .leftJoin(banks, eq(banks.id, windows.bankId))
+      .leftJoin(services, eq(windows.serviceId, services.id))
+      .where(eq(banks.id, uuid))
+
+    return res.json(bank)
   },
 }
 
