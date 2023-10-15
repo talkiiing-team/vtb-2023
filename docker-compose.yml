@@ -17,14 +17,14 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
 
-  server:
-    restart: always
-    build: '.'
-    ports:
-      - 3000:3000
-    environment:
-      LISTEN: 3000
-      DB_URI: ${SERVER_DB_URI}
+  # server:
+  #   restart: always
+  #   build: '.'
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     LISTEN: 3000
+  #     DB_URI: ${SERVER_DB_URI}
 
 volumes:
   db_data:
