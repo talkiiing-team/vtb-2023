@@ -34,8 +34,10 @@ export type Bank = {
   sale_point_format: string
   suo_available: string
   has_ramp: string
-  latitude: number
-  longitude: number
+  point: {
+    lat: number
+    lng: number
+  }
   metro_station: string
   kep: false
   my_branch: false

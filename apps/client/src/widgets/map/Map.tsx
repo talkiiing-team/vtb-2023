@@ -17,26 +17,26 @@ export const Map: FC<{ filter: BankFilters }> = ({ filter }) => {
   const [banks, setBanks] = useState<Bank[]>([])
 
   useEffect(() => {
+    // We're not in moscow, so just mock it
     setCurrentPos({
       latitude: 55.751244,
       longitude: 37.618423,
     })
     return
-    geoService
-      .handlePermission()
-      .then(data => {
-        setAllowed(true)
-        console.log(data.coords)
-        setCurrentPos({
-          latitude: data.coords.latitude,
-          longitude: data.coords.longitude,
-        })
-      })
-      .catch(() => {
-        axios.get<GeoIP>('http://ip-api.com/json/').then(res => {
-          setCurrentPos({ latitude: res.data.lat, longitude: res.data.lon })
-        })
-      })
+    // geoService
+    //   .handlePermission()
+    //   .then(data => {
+    //     setAllowed(true)
+    //     setCurrentPos({
+    //       latitude: data.coords.latitude,
+    //       longitude: data.coords.longitude,
+    //     })
+    //   })
+    //   .catch(() => {
+    //     axios.get<GeoIP>('http://ip-api.com/json/').then(res => {
+    //       setCurrentPos({ latitude: res.data.lat, longitude: res.data.lon })
+    //     })
+    //   })
   }, [])
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export const Map: FC<{ filter: BankFilters }> = ({ filter }) => {
   useEffect(() => {
     if (!currentPos) return
     axios
-      .get<Bank[]>('http://192.168.0.120:3000/v1/banks/nearest', {
+      .get<Bank[]>('http://82.147.71.63:3000/v1/banks/nearest', {
         params: {
           lat: currentPos.latitude,
           lng: currentPos.longitude,
@@ -80,7 +80,10 @@ export const Map: FC<{ filter: BankFilters }> = ({ filter }) => {
             iconAnchor: [24, 50],
           })
           return (
-            <Marker position={[bank.latitude, bank.longitude]} icon={pinIcon} />
+            <Marker
+              position={[bank.point.lat, bank.point.lng]}
+              icon={pinIcon}
+            />
           )
         })}
         {allowed && currentPos && (

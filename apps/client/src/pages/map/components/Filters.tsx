@@ -10,7 +10,7 @@ export const Filters: FC<{ onChange: (filter: BankFilters) => void }> = ({
   onChange,
 }) => {
   const [open, setOpen] = useState(false)
-  const [filters, setFilters] = useState<BankFilters>({ distance: 0.03 })
+  const [filters, setFilters] = useState<BankFilters>({ distance: 250 })
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -44,9 +44,9 @@ export const Filters: FC<{ onChange: (filter: BankFilters) => void }> = ({
               <input
                 id='filterDistance'
                 type='range'
-                min={0.005}
-                max={0.1}
-                step={0.005}
+                min={1000}
+                max={20000}
+                step={1000}
                 defaultValue={filters.distance}
                 onChange={e => {
                   const value = Number(e.target.value)
@@ -54,7 +54,6 @@ export const Filters: FC<{ onChange: (filter: BankFilters) => void }> = ({
                     distance: value,
                   })
                 }}
-                className='z-[100000] bg-black'
               />
             </div>
           </div>
