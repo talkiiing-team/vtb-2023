@@ -22,12 +22,12 @@ export const Footer = () => {
   const { pathname } = useLocation()
 
   return (
-    <footer className='btm-nav bg-primary text-white rounded-t-lg'>
+    <footer className='btm-nav bg-primary text-white'>
       {linksNav.map((e, i) => (
         <Link
           key={i}
           to={e.path}
-          className={classNames('transition-all rounded-t-lg', {
+          className={classNames('transition-all', {
             ['bg-secondary']: e.path === pathname,
           })}
         >

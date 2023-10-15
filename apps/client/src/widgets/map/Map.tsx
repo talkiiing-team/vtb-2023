@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import { divIcon, Map as LeafletMap } from 'leaflet'
 import { Position } from '@/pages/map/types.ts'
@@ -7,8 +7,9 @@ import axios from 'axios'
 import { Bank, GeoIP } from '@/widgets/map/types.ts'
 import { Loader } from '@/components/Loader.tsx'
 import { getMapPin } from '@/shared/ui/map-pin'
+import { BankFilters } from '@/pages/map/components/Filters.tsx'
 
-export const Map = () => {
+export const Map: FC<{ filter: BankFilters }> = ({ filter }) => {
   const ref = useRef<LeafletMap>(null)
   const container = useRef<HTMLDivElement>(null)
   const [currentPos, setCurrentPos] = useState<Position>()
@@ -47,19 +48,23 @@ export const Map = () => {
         },
         allowed ? 13 : 11,
       )
-      axios
-        .get<Bank[]>('http://192.168.0.120:3000/v1/banks/nearest', {
-          params: {
-            lat: 55.751244,
-            lng: 37.618423,
-            dist: 0.03,
-          },
-        })
-        .then(res => {
-          setBanks(res.data)
-        })
     }
   }, [currentPos, ref, allowed])
+
+  useEffect(() => {
+    if (!currentPos) return
+    axios
+      .get<Bank[]>('http://192.168.0.120:3000/v1/banks/nearest', {
+        params: {
+          lat: currentPos.latitude,
+          lng: currentPos.longitude,
+          dist: filter.distance ?? 0.03,
+        },
+      })
+      .then(res => {
+        setBanks(res.data)
+      })
+  }, [filter, currentPos])
 
   return (
     <div className='flex grow' ref={container}>
@@ -78,6 +83,9 @@ export const Map = () => {
             <Marker position={[bank.latitude, bank.longitude]} icon={pinIcon} />
           )
         })}
+        {allowed && currentPos && (
+          <Marker position={[currentPos.latitude, currentPos.longitude]} />
+        )}
       </MapContainer>
       {!currentPos && (
         <div className='h-full w-full flex flex-col items-center justify-center'>
