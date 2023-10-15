@@ -1,10 +1,10 @@
 version: '3'
 
 services:
-  osrm:
-    build: './apps/osrm'
-    ports:
-      - 5000:5000
+  # osrm:
+  #   build: './apps/osrm'
+  #   ports:
+  #     - 5000:5000
 
   db:
     image: 'postgis/postgis:14-3.3-alpine'
@@ -16,6 +16,15 @@ services:
       - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
+
+  server:
+    restart: always
+    build: '.'
+    ports:
+      - 3000:3000
+    environment:
+      LISTEN: 3000
+      DB_URI: ${SERVER_DB_URI}
 
 volumes:
   db_data:
