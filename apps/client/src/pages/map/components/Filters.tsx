@@ -39,7 +39,7 @@ export const Filters: FC<{ onChange: (filter: BankFilters) => void }> = ({
                 onClick={() => setOpen(false)}
               />
             </div>
-            <div className='w-full h-full px-3'>
+            <div className='w-full h-full px-3 flex flex-col space-y-0.5'>
               <label htmlFor='filterDistance'>Расстояние от вас</label>
               <input
                 id='filterDistance'
