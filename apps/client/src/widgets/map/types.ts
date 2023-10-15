@@ -21,6 +21,7 @@ export type OpenHours = Record<
 >
 
 export type Bank = {
+  distance: number
   uuid: string
   sale_point_name: string
   address: string
@@ -38,4 +39,5 @@ export type Bank = {
   metro_station: string
   kep: false
   my_branch: false
+  services: string[]
 }

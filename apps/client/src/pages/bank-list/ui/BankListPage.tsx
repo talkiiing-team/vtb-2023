@@ -7,17 +7,36 @@ export const BankListPage = () => {
   const [banks, setBanks] = useState<Bank[]>()
 
   useEffect(() => {
-    axios
-      .get<Bank[]>('http://192.168.0.120:3000/v1/banks/nearest', {
-        params: {
-          lat: 55.751244,
-          lng: 37.618423,
-          dist: 0.03,
-        },
-      })
-      .then(res => {
-        setBanks(res.data.slice(0, res.data.length < 10 ? res.data.length : 10))
-      })
+    setBanks([
+      {
+        address: 'Кукуево д. 18',
+        is_opened: true,
+        uuid: 'kaif-kaif-kaif',
+        sale_point_name: 'Название отделения',
+        distance: 55,
+        services: ['Погашение кредита', 'Обмен валют', 'Открытие ячейки'],
+      },
+      {
+        address: 'Пушкино д. 125',
+        is_opened: true,
+        uuid: 'nekaif-nekaif-nekaif',
+        sale_point_name: 'Название отделения #2',
+        distance: 1250,
+        services: ['Погашение кредита', 'Обмен валют', 'Открытие ячейки'],
+      },
+    ])
+
+    // axios
+    //   .get<Bank[]>('http://192.168.0.120:3000/v1/banks/nearest', {
+    //     params: {
+    //       lat: 55.751244,
+    //       lng: 37.618423,
+    //       dist: 0.03,
+    //     },
+    //   })
+    //   .then(res => {
+    //     setBanks(res.data.slice(0, res.data.length < 10 ? res.data.length : 10))
+    //   })
   }, [])
 
   return (
